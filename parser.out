@@ -1,0 +1,289 @@
+Created by PLY version 3.8 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> pr
+Rule 1     pr -> <empty>
+Rule 2     pr -> instr pr
+Rule 3     instr -> STOP
+Rule 4     instr -> inc
+Rule 5     instr -> dec
+Rule 6     instr -> zero
+Rule 7     zero -> ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE
+Rule 8     inc -> INC COUNTER
+Rule 9     dec -> DEC COUNTER
+
+Terminals, with rules where they appear
+
+CLOSE                : 7 7
+COLON                : 7
+COUNTER              : 7 8 9
+DEC                  : 9
+INC                  : 8
+OPEN                 : 7 7
+QUEST                : 7
+STOP                 : 3
+ZERO                 : 7
+error                : 
+
+Nonterminals, with rules where they appear
+
+dec                  : 5
+inc                  : 4
+instr                : 2 7 7
+pr                   : 2 0
+zero                 : 6
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . pr
+    (1) pr -> .
+    (2) pr -> . instr pr
+    (3) instr -> . STOP
+    (4) instr -> . inc
+    (5) instr -> . dec
+    (6) instr -> . zero
+    (8) inc -> . INC COUNTER
+    (9) dec -> . DEC COUNTER
+    (7) zero -> . ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE
+
+    $end            reduce using rule 1 (pr -> .)
+    STOP            shift and go to state 4
+    INC             shift and go to state 6
+    DEC             shift and go to state 2
+    ZERO            shift and go to state 5
+
+    pr                             shift and go to state 1
+    zero                           shift and go to state 7
+    inc                            shift and go to state 9
+    dec                            shift and go to state 8
+    instr                          shift and go to state 3
+
+state 1
+
+    (0) S' -> pr .
+
+
+
+state 2
+
+    (9) dec -> DEC . COUNTER
+
+    COUNTER         shift and go to state 10
+
+
+state 3
+
+    (2) pr -> instr . pr
+    (1) pr -> .
+    (2) pr -> . instr pr
+    (3) instr -> . STOP
+    (4) instr -> . inc
+    (5) instr -> . dec
+    (6) instr -> . zero
+    (8) inc -> . INC COUNTER
+    (9) dec -> . DEC COUNTER
+    (7) zero -> . ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE
+
+    $end            reduce using rule 1 (pr -> .)
+    STOP            shift and go to state 4
+    INC             shift and go to state 6
+    DEC             shift and go to state 2
+    ZERO            shift and go to state 5
+
+    pr                             shift and go to state 11
+    zero                           shift and go to state 7
+    inc                            shift and go to state 9
+    dec                            shift and go to state 8
+    instr                          shift and go to state 3
+
+state 4
+
+    (3) instr -> STOP .
+
+    CLOSE           reduce using rule 3 (instr -> STOP .)
+    STOP            reduce using rule 3 (instr -> STOP .)
+    INC             reduce using rule 3 (instr -> STOP .)
+    DEC             reduce using rule 3 (instr -> STOP .)
+    ZERO            reduce using rule 3 (instr -> STOP .)
+    $end            reduce using rule 3 (instr -> STOP .)
+
+
+state 5
+
+    (7) zero -> ZERO . COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE
+
+    COUNTER         shift and go to state 12
+
+
+state 6
+
+    (8) inc -> INC . COUNTER
+
+    COUNTER         shift and go to state 13
+
+
+state 7
+
+    (6) instr -> zero .
+
+    CLOSE           reduce using rule 6 (instr -> zero .)
+    STOP            reduce using rule 6 (instr -> zero .)
+    INC             reduce using rule 6 (instr -> zero .)
+    DEC             reduce using rule 6 (instr -> zero .)
+    ZERO            reduce using rule 6 (instr -> zero .)
+    $end            reduce using rule 6 (instr -> zero .)
+
+
+state 8
+
+    (5) instr -> dec .
+
+    CLOSE           reduce using rule 5 (instr -> dec .)
+    STOP            reduce using rule 5 (instr -> dec .)
+    INC             reduce using rule 5 (instr -> dec .)
+    DEC             reduce using rule 5 (instr -> dec .)
+    ZERO            reduce using rule 5 (instr -> dec .)
+    $end            reduce using rule 5 (instr -> dec .)
+
+
+state 9
+
+    (4) instr -> inc .
+
+    CLOSE           reduce using rule 4 (instr -> inc .)
+    STOP            reduce using rule 4 (instr -> inc .)
+    INC             reduce using rule 4 (instr -> inc .)
+    DEC             reduce using rule 4 (instr -> inc .)
+    ZERO            reduce using rule 4 (instr -> inc .)
+    $end            reduce using rule 4 (instr -> inc .)
+
+
+state 10
+
+    (9) dec -> DEC COUNTER .
+
+    CLOSE           reduce using rule 9 (dec -> DEC COUNTER .)
+    STOP            reduce using rule 9 (dec -> DEC COUNTER .)
+    INC             reduce using rule 9 (dec -> DEC COUNTER .)
+    DEC             reduce using rule 9 (dec -> DEC COUNTER .)
+    ZERO            reduce using rule 9 (dec -> DEC COUNTER .)
+    $end            reduce using rule 9 (dec -> DEC COUNTER .)
+
+
+state 11
+
+    (2) pr -> instr pr .
+
+    $end            reduce using rule 2 (pr -> instr pr .)
+
+
+state 12
+
+    (7) zero -> ZERO COUNTER . QUEST OPEN instr CLOSE COLON OPEN instr CLOSE
+
+    QUEST           shift and go to state 14
+
+
+state 13
+
+    (8) inc -> INC COUNTER .
+
+    CLOSE           reduce using rule 8 (inc -> INC COUNTER .)
+    STOP            reduce using rule 8 (inc -> INC COUNTER .)
+    INC             reduce using rule 8 (inc -> INC COUNTER .)
+    DEC             reduce using rule 8 (inc -> INC COUNTER .)
+    ZERO            reduce using rule 8 (inc -> INC COUNTER .)
+    $end            reduce using rule 8 (inc -> INC COUNTER .)
+
+
+state 14
+
+    (7) zero -> ZERO COUNTER QUEST . OPEN instr CLOSE COLON OPEN instr CLOSE
+
+    OPEN            shift and go to state 15
+
+
+state 15
+
+    (7) zero -> ZERO COUNTER QUEST OPEN . instr CLOSE COLON OPEN instr CLOSE
+    (3) instr -> . STOP
+    (4) instr -> . inc
+    (5) instr -> . dec
+    (6) instr -> . zero
+    (8) inc -> . INC COUNTER
+    (9) dec -> . DEC COUNTER
+    (7) zero -> . ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE
+
+    STOP            shift and go to state 4
+    INC             shift and go to state 6
+    DEC             shift and go to state 2
+    ZERO            shift and go to state 5
+
+    zero                           shift and go to state 7
+    inc                            shift and go to state 9
+    dec                            shift and go to state 8
+    instr                          shift and go to state 16
+
+state 16
+
+    (7) zero -> ZERO COUNTER QUEST OPEN instr . CLOSE COLON OPEN instr CLOSE
+
+    CLOSE           shift and go to state 17
+
+
+state 17
+
+    (7) zero -> ZERO COUNTER QUEST OPEN instr CLOSE . COLON OPEN instr CLOSE
+
+    COLON           shift and go to state 18
+
+
+state 18
+
+    (7) zero -> ZERO COUNTER QUEST OPEN instr CLOSE COLON . OPEN instr CLOSE
+
+    OPEN            shift and go to state 19
+
+
+state 19
+
+    (7) zero -> ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN . instr CLOSE
+    (3) instr -> . STOP
+    (4) instr -> . inc
+    (5) instr -> . dec
+    (6) instr -> . zero
+    (8) inc -> . INC COUNTER
+    (9) dec -> . DEC COUNTER
+    (7) zero -> . ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE
+
+    STOP            shift and go to state 4
+    INC             shift and go to state 6
+    DEC             shift and go to state 2
+    ZERO            shift and go to state 5
+
+    zero                           shift and go to state 7
+    inc                            shift and go to state 9
+    dec                            shift and go to state 8
+    instr                          shift and go to state 20
+
+state 20
+
+    (7) zero -> ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr . CLOSE
+
+    CLOSE           shift and go to state 21
+
+
+state 21
+
+    (7) zero -> ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE .
+
+    CLOSE           reduce using rule 7 (zero -> ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE .)
+    STOP            reduce using rule 7 (zero -> ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE .)
+    INC             reduce using rule 7 (zero -> ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE .)
+    DEC             reduce using rule 7 (zero -> ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE .)
+    ZERO            reduce using rule 7 (zero -> ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE .)
+    $end            reduce using rule 7 (zero -> ZERO COUNTER QUEST OPEN instr CLOSE COLON OPEN instr CLOSE .)
+

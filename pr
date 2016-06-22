@@ -1,0 +1,4 @@
+inc I
+zero I ? ( zero J ? ( inc J ) : ( dec J ) ) : ( dec I )
+inc J
+stop
