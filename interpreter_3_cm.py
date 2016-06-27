@@ -77,24 +77,85 @@ def crash(message):
     raise Exception   # stops the interpreter
 
 
-def opt_code(file):
+def opt_code2(file):
     """optimize input code counter machine"""
     f = file.read()
     f = re.sub(r'^', '(', f)
     f = re.sub(r'$', ')', f)
+    f = re.sub(r' |\n', '', f)
     f = re.sub('i', '"i",', f)
     f = re.sub('j', '"j",', f)
     f = re.sub('k', '"k",', f)
     f = re.sub(r'"i",nc', 'inc', f)
-    f = re.sub(r'inc', '"inc",', f)
-    f = re.sub(r'dec', '"dec",', f)
-    f = re.sub(r'zero', '"zero",', f)
-    f = re.sub('stop', '"stop"', f)
-    f = re.sub(',\)', ')', f)
-    f = re.sub(r' |\n|\?', '', f)
-    f = re.sub(r'\)\(|\):\(', '),(', f)
+    f = re.sub(r'inc"i"', '("inc","i")', f)
+    # (inc i)
+    # (inc j)
+    # (zero i ? ((zero j ? ((zero k ? ((inc k)) : ((dec k)))) : ((zero k ? ((inc k)) : ((dec k)))) )) : ((dec i)) )
+    # (inc k)
+    # (stop)
+
+    f = re.sub(r'inc"j"', '("inc","j")', f)
+    f = re.sub(r'inc"k"', '("inc","k")', f)
+    f = re.sub(r'dec"i"', '("dec","i")', f)
+    f = re.sub(r'dec"j"', '("dec","j")', f)
+    f = re.sub(r'dec"k"', '("dec","k")', f)
+    f = re.sub('stop', '("stop")', f)
+    f = re.sub(r'\?zero', '(("zero",', f)
+    f = re.sub(r':zero', ':(("zero",', f)
+    f = re.sub(r',zero', '("zero",', f)
+    f = re.sub(r'\?', '(', f)
+    f = re.sub(r'\),:', ')),:', f)
+    f = re.sub(r':\("', ':(("', f)
+    f = re.sub(r'\)\(', '),(', f)
+
+    f = re.sub(r':\(\("dec","i"\),', ':(("dec","i"))),', f)
+    f = re.sub(r':\(\("dec","j"\),', ':(("dec","j"))),', f)
+    f = re.sub(r':\(\("dec","k"\),', ':(("dec","k"))),', f)
+
+    f = re.sub(r':\(\("dec","i"\)\(', ':(("dec","i"))),(', f)
+    f = re.sub(r':\(\("dec","j"\)\(', ':(("dec","j"))),(', f)
+    f = re.sub(r':\(\("dec","k"\)\(', ':(("dec","k"))),(', f)
+
+    f = re.sub(r':\(\("inc","i"\),', ':(("inc","i"))),', f)
+    f = re.sub(r':\(\("inc","j"\),', ':(("inc","j"))),', f)
+    f = re.sub(r':\(\("inc","k"\),', ':(("inc","k"))),', f)
+
+    f = re.sub(r':\(\("inc","i"\)\(', ':(("inc","i"))),(', f)
+    f = re.sub(r':\(\("inc","j"\)\(', ':(("inc","j"))),(', f)
+    f = re.sub(r':\(\("inc","k"\)\(', ':(("inc","k"))),(', f)
+
+    list = []
+    bum = []
+    for m in re.finditer(r"zero|:", f):
+        list.append([m.group(0), m.start(), m.end()])
+    #print(list)
+    scobe = 0
+    for elem in list:
+        #print(elem[0])
+        if elem[0] == 'zero':
+            bum.append(scobe)
+            scobe += 2
+            #print(bum)
+        elif elem[0] == ":":
+            scobe = 0
+            elem.append(min(bum))
+            #print(min(bum))
+            bum.remove(min(bum))
+            #print(bum)
+        elif not bum:
+            scobe = 0
+    list = [elem for elem in list if elem[0] == ':']
+    #print(list)
+    for elem in reversed(list):
+        changed = '{0}'.format(f[elem[1]-1:elem[2]])
+        #print(changed)
+        scobs = '{0},'.format(')'*elem[3])
+        #print(scobs)
+        f = f[:elem[1]-1]+'{0},'.format(')'*elem[3])+f[elem[2]:]
+
     f = re.sub('\)', ']', f)
     f = re.sub('\(', '[', f)
+
 
     return eval(f)
 
@@ -109,5 +170,4 @@ def main(program):
     print "final namespace =", ns
 
 
-main(opt_code(open('pr.txt', 'r')))
-
+main(opt_code2(open('pr.txt', 'r')))

@@ -1,5 +1,6 @@
-(inc i)
-(inc j)
-(zero i ? ((zero j ? ((inc i)) : ((inc i)))) : ((dec i)))
-(inc k)
-(stop)
+inc i
+inc j
+zero i ? zero j ? zero k ? inc k : dec k : zero k ? inc k : dec k  : dec i
+zero i ? inc i : dec i
+inc k
+stop
